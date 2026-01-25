@@ -1,0 +1,35 @@
+services:
+  web:
+    build: .
+    container_name: flask_web
+    restart: always
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis
+    environment:
+      - FLASK_ENV=development
+      - DATABASE_URL=postgresql://user:senhas@db:5432/meuDB
+    volumes:
+      - .:/app
+
+  redis:
+    image: redis:7
+    container_name: flask_redis
+    restart: always
+
+  db:
+    image: postgres:15
+    container_name: flask_db
+    restart: always
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=senha
+      - POSTGRES_DB=meuDB
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:

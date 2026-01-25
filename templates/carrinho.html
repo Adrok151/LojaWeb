@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="'pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/style.css">
+    <title>Lista de Produtos</title>
+</head>
+<body>
+    <form action="{{ url_for('menu') }}">
+         <button>Voltar</button>
+    </form>
+    {% if vazio %}
+        <p>{{ vazio }}</p>
+    {% elif compraFeita %}
+        <p style="color:rgb(9, 206, 9);">{{ compraFeita }}</p>
+    {% else %}
+        <a href="{{ url_for('removeCarrinho') }}" class="botao">
+            Comprar
+        </a>
+        <div class="cards-container">
+            {% for produto in produtos %}
+                <div class="card">
+                    <img src="{{ url_for('static', filename=produto.imagem) }}"
+                        alt="{{ produto.nome }}">
+                    <div class="card-body">
+                        <h2>{{ produto.nome }}</h2> 
+                        <p class="preco">R$ {{ "%.2f"|format(produto.preco) }}</p>
+                        <a href="{{ url_for('detalhes', id=produto.id) }}" class="botao">
+                            Ver detalhes
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</body>
+</html>

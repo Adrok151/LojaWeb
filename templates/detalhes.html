@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/style.css">
+    <title>Lista de Usuários</title>
+</head>
+<body>
+    <form action="{{ url_for('menu') }}">
+        <button>Voltar</button>
+    </form>
+    <form action="{{ url_for('carrinho') }}">
+        <button>Carrinho</button>
+    </form>
+
+    <div class="card">
+        <img src="{{ url_for('static', filename=produto.imagem) }}"
+            alt="{{ produto.nome }}">
+        <div class="card-body">
+            <h2>{{ produto.nome }}</h2> 
+            <p class="categoria">{{ produto.categoria }}</p>
+            <p class="descricao">{{ produto.descricao }}</p>
+            <p class="preco">R$ {{ "%.2f"|format(produto.preco) }}</p>
+            <a href="{{ url_for('addCarrinho', id=produto.id) }}" class="botao">
+                Adicionar ao carrinho
+            </a>
+        </div>
+    </div>
+</body>
+</html>

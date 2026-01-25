@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/style.css">
+    <title>Lista de Produtos</title>
+</head>
+<body class="menu">
+    <p>Login realizado com sucesso!</p>
+
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% endif %}
+
+    {% if success %}
+        <p style="color:rgb(9, 206, 9);">{{ success }}</p>
+    {% endif %}
+
+    <form action="{{ url_for('logout') }}" method="get">
+        <button type="submit">Logout</button>
+    </form>
+
+    <form action="{{ url_for('carrinho') }}">
+        <button>Carrinho</button>
+    </form>
+    
+    <hr>
+    
+    <h1>Produtos</h1>
+    <div class="cards-container">
+        {% for produto in produtos %}
+            <div class="card">
+                <img src="{{ url_for('static', filename=produto.imagem) }}"
+                    alt="{{ produto.nome }}">
+                <div class="card-body">
+                    <h2>{{ produto.nome }}</h2> 
+                    <p class="preco">R$ {{ "%.2f"|format(produto.preco) }}</p>
+                    <a href="{{ url_for('detalhes', id=produto.id) }}" class="botao">
+                        Ver detalhes
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    <script src="../static/script.js"></script>
+    <noscript>Voce precisa ativar o JavaScript para ver este site</noscript>
+    </div>
+</body>
+</html>

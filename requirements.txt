@@ -1,0 +1,5 @@
+flask
+flask_login
+redis
+werkzeug
+Flask-SQLAlchemy
