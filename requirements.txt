@@ -3,3 +3,5 @@ flask_login
 redis
 werkzeug
 Flask-SQLAlchemy
+psycopg2-binary
+python-dotenv

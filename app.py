@@ -1,10 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from models import db, User, Produto
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "chave_muito_secreta_aqui"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///meubanco.db"
+app.config["SECRET_KEY"] = os.environ.get('CHAVE_SECRETA')
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL')
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
@@ -21,9 +25,15 @@ with app.app_context():
 
     if Produto.query.count() == 0:
         dadosIniciais = [
-            {'nome': 'Burger', 'preco': 15, 'imagem': 'images/burger.jpg', 'descricao': 'Pão, carne e queijo', 'categoria': 'lanche'},
-            {'nome': 'Pizza quatro queijos', 'preco': 45, 'imagem': 'images/pizza_1.jpg', 'descricao': 'Pizza grande de sabor quatro queijos', 'categoria': 'pizza'},
-            {'nome': 'Pizza calabresa', 'preco': 45, 'images': 'images/pizza_2.jpg', 'descricao': 'Pizza grande de calabresa tradicional', 'categoria': 'pizza'}
+            {'nome': 'Burger1', 'preco': 15, 'imagem': 'images/burger.jpg', 'descricao': 'Pão, carne e queijo', 'categoria': 'lanche'},
+            {'nome': 'Pizza quatro queijos1', 'preco': 45, 'imagem': 'images/pizza_1.jpg', 'descricao': 'Pizza grande de sabor quatro queijos', 'categoria': 'pizza'},
+            {'nome': 'Pizza calabresa1', 'preco': 45, 'imagem': 'images/pizza_2.jpg', 'descricao': 'Pizza grande de calabresa tradicional', 'categoria': 'pizza'},
+            {'nome': 'Burger2', 'preco': 15, 'imagem': 'images/burger.jpg', 'descricao': 'Pão, carne e queijo', 'categoria': 'lanche'},
+            {'nome': 'Pizza quatro queijos2', 'preco': 45, 'imagem': 'images/pizza_1.jpg', 'descricao': 'Pizza grande de sabor quatro queijos', 'categoria': 'pizza'},
+            {'nome': 'Pizza calabresa2', 'preco': 45, 'imagem': 'images/pizza_2.jpg', 'descricao': 'Pizza grande de calabresa tradicional', 'categoria': 'pizza'},
+            {'nome': 'Burger3', 'preco': 15, 'imagem': 'images/burger.jpg', 'descricao': 'Pão, carne e queijo', 'categoria': 'lanche'},
+            {'nome': 'Pizza quatro queijos3', 'preco': 45, 'imagem': 'images/pizza_1.jpg', 'descricao': 'Pizza grande de sabor quatro queijos', 'categoria': 'pizza'},
+            {'nome': 'Pizza calabresa3', 'preco': 45, 'imagem': 'images/pizza_2.jpg', 'descricao': 'Pizza grande de calabresa tradicional', 'categoria': 'pizza'}
         ]
         for itemData in dadosIniciais:
             novoItem = Produto(
@@ -49,7 +59,7 @@ def formata(dados):
             'categoria': each.categoria
         }
         dadosLista.append(produto)
-    return(dadosLista)
+    return dadosLista
 
 
 @login_manager.user_loader
@@ -127,7 +137,7 @@ def carrinho():
 def addCarrinho():
     if 'carrinho' not in session:
         session['carrinho'] = []
-    id = request.args.get('id')
+    id = int(request.args.get('id'))
     session['carrinho'].append(id)
     session.modified = True
     busca = Produto.query.filter_by(id = id).first()

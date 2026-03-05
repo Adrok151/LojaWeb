@@ -7,9 +7,10 @@ services:
       - "5000:5000"
     depends_on:
       - redis
+      - db
     environment:
       - FLASK_ENV=development
-      - DATABASE_URL=postgresql://user:senhas@db:5432/meuDB
+      - DATABASE_URL=postgresql://user:senha@db:5432/meuDB
     volumes:
       - .:/app
 
