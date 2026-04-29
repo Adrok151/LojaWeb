@@ -1,12 +1,14 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from models import db, User, Produto
 import os
 from dotenv import load_dotenv
+from carrinho import carrinho_bp
 
 load_dotenv()
 
 app = Flask(__name__)
+app.register_blueprint(carrinho_bp, url_prefix='/carrinho')
 app.config["SECRET_KEY"] = os.environ.get('CHAVE_SECRETA')
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL')
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -109,46 +111,6 @@ def detalhes():
     else:
         produtosFormat = formata(Produto.query.all())
         return render_template("menu.html", produtos = produtosFormat, error="Nenhum resultado encontrado")
-
-@app.route("/carrinho")
-@login_required
-def carrinho():
-    if 'carrinho' not in session:
-        session['carrinho'] = []
-    if len(session['carrinho']) > 0:
-        dadosLista = []
-        for each in session['carrinho']:
-            item = Produto.query.filter_by(id = each).first()
-            produto = {
-                'id': item.id,
-                'nome': item.nome,
-                'preco': item.preco,
-                'imagem': item.imagem,
-                'descricao': item.descricao,
-                'categoria': item.categoria
-            }
-            dadosLista.append(produto)        
-        return render_template("carrinho.html", produtos = dadosLista) 
-    else:
-        return render_template("carrinho.html", vazio = "O carrinho está vazio!") 
-    
-@app.route("/addCarrinho")
-@login_required
-def addCarrinho():
-    if 'carrinho' not in session:
-        session['carrinho'] = []
-    id = int(request.args.get('id'))
-    session['carrinho'].append(id)
-    session.modified = True
-    busca = Produto.query.filter_by(id = id).first()
-    return render_template("detalhes.html", produto = busca, success = 'O item foi adicionado ao carrinho')
-
-@app.route("/removeCarrinho")
-@login_required
-def removeCarrinho():
-    session['carrinho'] = []
-    session.modified = True
-    return render_template("carrinho.html", compraFeita = "Obrigado pela compra! (isto pe claro é apenas um teste de um conceito ;) )")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

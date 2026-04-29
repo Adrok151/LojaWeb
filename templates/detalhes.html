@@ -9,7 +9,7 @@
     <form action="{{ url_for('menu') }}">
         <button>Voltar</button>
     </form>
-    <form action="{{ url_for('carrinho') }}">
+    <form action="{{ url_for('carrinho.carrinho') }}">
         <button>Carrinho</button>
     </form>
 
@@ -21,10 +21,33 @@
             <p class="categoria">{{ produto.categoria }}</p>
             <p class="descricao">{{ produto.descricao }}</p>
             <p class="preco">R$ {{ "%.2f"|format(produto.preco) }}</p>
-            <a href="{{ url_for('addCarrinho', id=produto.id) }}" class="botao">
+            <button onclick="addCarrinho({{ produto.id }})">
                 Adicionar ao carrinho
-            </a>
+            </button>
         </div>
     </div>
 </body>
+<script>
+    function addCarrinho(id) {
+        fetch('/carrinho/addCarrinho', {
+            method: 'POST',
+            body: JSON.stringify({ id: id }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+            })
+            .then(res => res.json())
+            .then(data => {
+            if (data.success) {
+                alert("Produto adicionado!");
+            } else {
+                alert("Erro ao adicionar");
+            }
+            })
+            .catch(err => {
+            console.error(err);
+            alert("Erro na requisição");
+            });
+    }
+</script>
 </html>

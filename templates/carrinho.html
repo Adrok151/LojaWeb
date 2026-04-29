@@ -14,7 +14,7 @@
     {% elif compraFeita %}
         <p style="color:rgb(9, 206, 9);">{{ compraFeita }}</p>
     {% else %}
-        <a href="{{ url_for('removeCarrinho') }}" class="botao">
+        <a href="{{ url_for('carrinho.removeCarrinho') }}" class="botao">
             Comprar
         </a>
         <div class="cards-container">
