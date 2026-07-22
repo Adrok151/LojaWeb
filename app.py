@@ -48,7 +48,6 @@ with app.app_context():
             db.session.add(novoItem)
     db.session.commit()
 
-
 def formata(dados):
     dadosLista = []
     for each in dados:
@@ -62,7 +61,6 @@ def formata(dados):
         }
         dadosLista.append(produto)
     return dadosLista
-
 
 @login_manager.user_loader
 def load_user(user_id):

@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify, Blueprint
+from flask import render_template, request, session, jsonify, Blueprint
 from flask_login import login_required
-from models import db, Produto
+from models import Produto
 
 carrinho_bp = Blueprint('carrinho', __name__)
 
