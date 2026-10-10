@@ -1,2 +1,1 @@
-Este é um projeto acadêmico que eu criei com o proposito de aprender mais sobre a criação de API's e uso de blueprints, 
-esses conceitos foram a base para eu criar projetos mais completos em trabalhos freelancer.
+Este é um projeto acadêmico que eu criei com o proposito de aprender mais sobre a criação de API's e uso de blueprints, esses conceitos foram a base para eu criar projetos mais completos em trabalhos freelancer. Para ver sobre meus projetos mais completos basta acessar o site https://joyful-yeot-452a06.netlify.app
